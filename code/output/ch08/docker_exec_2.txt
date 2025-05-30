@@ -1,0 +1,111 @@
+100%|██████████| 97/97 [00:02<00:00, 43.84it/s]
+100%|██████████| 97/97 [00:00<00:00, 126.42it/s]
+{
+    "took": 30,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 910,
+            "relation": "eq"
+        },
+        "max_score": 1.9748265,
+        "hits": [
+            {
+                "_index": "ch08",
+                "_id": "B07RQJSZTM",
+                "_score": 1.9748265,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "エンゲルス 硬貨選別機 コインカウンター 1台"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B007C0LNXY",
+                "_score": 1.9710417,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "コインレジ差し替えコインボックス MR-10"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B083WFKWYH",
+                "_score": 1.9695702,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "Fkstyle 紙幣計数機 紙幣カウンター お札 小型 ハンディーカウンター 自動 計数機 バッチ機能付き デジタル表示 ポータブル 収納袋付き [並行輸入品]"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B017EQOXC8",
+                "_score": 1.9663692,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "【 持ち運び 可能 】 お札 カウンター 計数機 ポータブル ハンディ ギフト券 外国紙幣 NS-SATSU-C"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B07PX1NXMM",
+                "_score": 1.9637632,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "[ラドウェザー]デジタル時計 温度計 歩数計 100m 防水時計 (ブラウン反転)"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B002OB3OPQ",
+                "_score": 1.9631312,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "カール事務器 レジスター コインレジ MR-2010N"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B0032RWE0W",
+                "_score": 1.9629972,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "カール事務器 コインカウンター CX-5000E"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B0030FX1HQ",
+                "_score": 1.9597031,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "オープン工業 コインキーパー M-32"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B00GPL3ALO",
+                "_score": 1.9592656,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "デジタル時計"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B00OWA6QNO",
+                "_score": 1.9588832,
+                "_source": {
+                    "title_hash": "10110110",
+                    "product_title": "京都大学 限定 素数ものさし"
+                }
+            }
+        ]
+    }
+}

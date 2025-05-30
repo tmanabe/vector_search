@@ -1,0 +1,18 @@
+diff --git a/code/docker-compose.yaml b/code/docker-compose.yaml
+index 1673b9c..22308a1 100644
+--- a/code/docker-compose.yaml
++++ b/code/docker-compose.yaml
+@@ -6,6 +6,13 @@ services:
+     tty: true
+     volumes:
+     - .:/code
++    deploy:
++      resources:
++        reservations:
++          devices:
++            - driver: nvidia
++              capabilities: [gpu]
++              count: 1
+ 
+   # 第3章から使用 (OpenSearch)
+   opensearch:

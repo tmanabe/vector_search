@@ -1,0 +1,3 @@
+IndexIVFFlat
+Took: 0.004941 s
+Mean nDCG: 0.505

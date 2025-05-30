@@ -1,0 +1,4 @@
+with_quantize: False
+Mean nDCG: 0.853
+with_quantize: True
+Mean nDCG: 0.851

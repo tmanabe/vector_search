@@ -1,0 +1,101 @@
+100%|██████████| 97/97 [00:01<00:00, 83.52it/s]
+100%|██████████| 97/97 [00:00<00:00, 187.13it/s]
+{
+    "took": 24,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 2679,
+            "relation": "eq"
+        },
+        "max_score": 950036.0,
+        "hits": [
+            {
+                "_index": "ch07",
+                "_id": "B07RQJSZTM",
+                "_score": 950036.0,
+                "_source": {
+                    "product_title": "エンゲルス 硬貨選別機 コインカウンター 1台"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B007C0LNXY",
+                "_score": 939978.0,
+                "_source": {
+                    "product_title": "コインレジ差し替えコインボックス MR-10"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B083WFKWYH",
+                "_score": 913964.0,
+                "_source": {
+                    "product_title": "Fkstyle 紙幣計数機 紙幣カウンター お札 小型 ハンディーカウンター 自動 計数機 バッチ機能付き デジタル表示 ポータブル 収納袋付き [並行輸入品]"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B002OB3OPQ",
+                "_score": 891618.0,
+                "_source": {
+                    "product_title": "カール事務器 レジスター コインレジ MR-2010N"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B0032RWE0W",
+                "_score": 842608.0,
+                "_source": {
+                    "product_title": "カール事務器 コインカウンター CX-5000E"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B07PWQBD4Q",
+                "_score": 820686.0,
+                "_source": {
+                    "product_title": "usbチェッカー電圧と電流テスターデジタルUSBマルチメーター5.1A 30V電圧計メーター電流計テスターPD多機能ディスプレイ容量電圧電流検出器"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B017EQOXC8",
+                "_score": 817682.0,
+                "_source": {
+                    "product_title": "【 持ち運び 可能 】 お札 カウンター 計数機 ポータブル ハンディ ギフト券 外国紙幣 NS-SATSU-C"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B00GPL3ALO",
+                "_score": 796975.0,
+                "_source": {
+                    "product_title": "デジタル時計"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B07PX1NXMM",
+                "_score": 796166.0,
+                "_source": {
+                    "product_title": "[ラドウェザー]デジタル時計 温度計 歩数計 100m 防水時計 (ブラウン反転)"
+                }
+            },
+            {
+                "_index": "ch07",
+                "_id": "B09BNJQ2JM",
+                "_score": 791228.0,
+                "_source": {
+                    "product_title": "KKnoon USB電流電圧テスター type-c チェッカー HD PDトリガー USB電圧計電流計 電圧 2方向測定電流計 マルチメータ USB 電流チェッカー"
+                }
+            }
+        ]
+    }
+}

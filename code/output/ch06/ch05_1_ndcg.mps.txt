@@ -1,0 +1,8 @@
+Before fine-tuning
+Batches: 100%|██████████| 1/1 [00:00<00:00,  5.37it/s]
+Batches: 100%|██████████| 28/28 [00:04<00:00,  5.99it/s]
+Mean nDCG: 0.841
+After fine-tuning
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.58it/s]
+Batches: 100%|██████████| 28/28 [00:04<00:00,  6.98it/s]
+Mean nDCG: 0.850

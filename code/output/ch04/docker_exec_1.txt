@@ -1,0 +1,3 @@
+IndexFlatIP
+Took: 0.005099 s
+Mean nDCG: 0.211

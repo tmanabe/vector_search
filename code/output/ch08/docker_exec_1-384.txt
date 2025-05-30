@@ -1,0 +1,3 @@
+IndexLSH
+Took: 0.005603 s
+Mean nDCG: 0.405

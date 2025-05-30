@@ -1,0 +1,23 @@
+# 第1章から使用
+pandas
+pyarrow
+fastparquet
+
+# 第2章から使用
+transformers
+sentence-transformers
+hf_xet
+
+# 第3章から使用
+faiss-cpu
+opensearch-py
+
+# 第5章から使用
+sentencepiece
+fugashi
+unidic-lite
+datasets
+accelerate
+
+# 第11章から使用
+xgboost

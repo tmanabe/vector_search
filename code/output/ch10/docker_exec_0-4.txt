@@ -1,0 +1,3 @@
+IndexHNSWFlat
+Took: 0.000877 s
+Mean nDCG: 0.549

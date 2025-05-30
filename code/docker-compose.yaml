@@ -1,0 +1,19 @@
+services:
+  # 第1章から使用
+  workspace:
+    build:
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+    - .:/code
+
+  # 第3章から使用 (OpenSearch)
+  opensearch:
+    image: opensearchproject/opensearch
+    ports:
+    - 9200:9200
+    environment:
+    - discovery.type=single-node
+    - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Vect0rSe@rchEngine
+    healthcheck:
+      test: curl https://opensearch:9200 -ku admin:Vect0rSe@rchEngine

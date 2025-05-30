@@ -1,0 +1,6 @@
+IndexFlatIP
+Took: 0.034548 s
+Mean nDCG: 0.566
+IndexScalarQuantizer
+Took: 0.051023 s
+Mean nDCG: 0.565

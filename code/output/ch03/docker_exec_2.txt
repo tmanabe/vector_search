@@ -1,0 +1,101 @@
+100%|██████████| 97/97 [00:01<00:00, 71.68it/s]
+100%|██████████| 97/97 [00:00<00:00, 124.59it/s]
+{
+    "took": 2,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 2679,
+            "relation": "eq"
+        },
+        "max_score": 1.812011,
+        "hits": [
+            {
+                "_index": "ch03",
+                "_id": "B07RQJSZTM",
+                "_score": 1.812011,
+                "_source": {
+                    "product_title": "エンゲルス 硬貨選別機 コインカウンター 1台"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B0018O1SI0",
+                "_score": 1.8007143,
+                "_source": {
+                    "product_title": "ナカバヤシ コインカウンター NC-101B"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B01FC1UHJA",
+                "_score": 1.7575552,
+                "_source": {
+                    "product_title": "無印良品　ダイヤル式キッチンタイマー　ＴＤ‐３９３"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B088MDYR22",
+                "_score": 1.7284778,
+                "_source": {
+                    "product_title": "俺、コンビニでバイトはじめました"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B00DS4125C",
+                "_score": 1.7267771,
+                "_source": {
+                    "product_title": "ワンナイト人狼"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B007RSH9O8",
+                "_score": 1.7120004,
+                "_source": {
+                    "product_title": "カリフォルニアタン レイジ"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B007C0LNXY",
+                "_score": 1.7114825,
+                "_source": {
+                    "product_title": "コインレジ差し替えコインボックス MR-10"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B0064JMA3Q",
+                "_score": 1.7098663,
+                "_source": {
+                    "product_title": "アイリスオーヤマ コインカウンター SBX-C9 ブラック"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B002OB3OPQ",
+                "_score": 1.704574,
+                "_source": {
+                    "product_title": "カール事務器 レジスター コインレジ MR-2010N"
+                }
+            },
+            {
+                "_index": "ch03",
+                "_id": "B000UVJBOK",
+                "_score": 1.6964321,
+                "_source": {
+                    "product_title": "マイ・ファニー・バレンタイン"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,2 @@
+100%|██████████| 13069/13069 [10:19<00:00, 21.08it/s]
+{'train_runtime': 619.9084, 'train_samples_per_second': 337.298, 'train_steps_per_second': 21.082, 'train_loss': 4.149384404243074, 'epoch': 1.0}

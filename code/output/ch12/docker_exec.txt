@@ -1,0 +1,10 @@
+Before fine-tuning
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.20it/s]
+Batches: 100%|██████████| 28/28 [00:38<00:00,  1.36s/it]
+Mean nDCG: 0.823
+100%|██████████| 114/114 [14:38<00:00,  7.71s/it]
+{'train_runtime': 878.8102, 'train_samples_per_second': 2.061, 'train_steps_per_second': 0.13, 'train_loss': 4.192950600071957, 'epoch': 1.0}
+After fine-tuning
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.24it/s]
+Batches: 100%|██████████| 28/28 [00:41<00:00,  1.50s/it]
+Mean nDCG: 0.867

@@ -1,0 +1,8 @@
+cos
+Mean nDCG: 0.843
+xgb3
+Mean nDCG: 0.826
+rrf
+Mean nDCG: 0.842
+xgb4
+Mean nDCG: 0.848

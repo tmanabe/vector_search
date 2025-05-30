@@ -1,0 +1,111 @@
+100%|██████████| 97/97 [00:02<00:00, 47.24it/s]
+100%|██████████| 97/97 [00:00<00:00, 157.27it/s]
+{
+    "took": 9,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 35,
+            "relation": "eq"
+        },
+        "max_score": 1.9593191,
+        "hits": [
+            {
+                "_index": "ch08",
+                "_id": "B07QG1W8ZM",
+                "_score": 1.9593191,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "dretec(ドリテック) ナースウォッチ付き 電卓タイマー 計算機 バイブレーション機能 消音 操作音なし ストラップ付 CL-128WTDI"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B00DAM5L1S",
+                "_score": 1.9519551,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "タニタ タイマー 勉強 ストラップ付き バイブレーション機能 24時間 ホワイト TD-370N WH"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B00YA0D7NS",
+                "_score": 1.9487267,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "ドリテック 大画面タイマー シャボン6 ホワイト T-542WT"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B00I7JGI2A",
+                "_score": 1.9485399,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "dretec(ドリテック) デジタルタイマー スリムキューブ 消音切替 光 ホワイト T-520WT"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B07SNB31SG",
+                "_score": 1.9455843,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "ドリテック タイマー 勉強 学習用 消音 大画面 大音量 時計 アラーム マグネット 最大セット199分59秒"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B001QCYGJC",
+                "_score": 1.9452808,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "[カシオ] 腕時計 スポーツギア 電波時計 WV-M200-1AJF ブラック"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B000GB1R7S",
+                "_score": 1.9443758,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "[カシオスタンダード] 腕時計 CA-53W-1Z 逆輸入品 ブラック"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B00BGJI56A",
+                "_score": 1.9436762,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "[カシオ] 腕時計 スタンダード W-96H-1AJF ブラック"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B087S3YKH7",
+                "_score": 1.9429249,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "無印良品 ダイヤル式キッチンタイマー TD‐393 82248296"
+                }
+            },
+            {
+                "_index": "ch08",
+                "_id": "B007A7DBH0",
+                "_score": 1.9426541,
+                "_source": {
+                    "title_hash": "0100010100000010",
+                    "product_title": "[カシオ] 腕時計 スタンダード F-200W-1AJF ブラック"
+                }
+            }
+        ]
+    }
+}
