@@ -8,10 +8,10 @@ import pandas as pd
 import time
 
 
-# Faissが返したスコアをpandas (pd) DataFrameにまとめる関数
+# Faissが返したスコアをpandas（pd）DataFrameにまとめる関数
 def format_score_data(k, query_ids, product_ids, score_matrix, index_matrix):
     # Faissはプレースホルダとして-1を返す。これはPythonでは最後の要素を指すので、
-    # ユニークな製品ID列の最後の要素としてもプレースホルダ (None) を追加する。
+    # ユニークな製品ID列の最後の要素としてもプレースホルダ（None）を結合する
     product_ids = pd.concat([product_ids, pd.Series([None])])
 
     # スコアと、製品IDの通し番号それぞれ「リストのリスト」を単一のリストに結合する
@@ -21,9 +21,9 @@ def format_score_data(k, query_ids, product_ids, score_matrix, index_matrix):
         {
             # Faissがクエリあたりk件のドキュメントを返すなら、クエリIDをk回ずつ繰り返す
             "query_id": np.repeat(list(query_ids), k),
-            # 製品IDの通し番号のリスト (indices) を対応する製品ID列に変換する
+            # 製品IDの通し番号のリスト（indices）を対応する製品ID列に変換する
             "product_id": product_ids.iloc[indices],
-            # のちのソートを考慮して、プレースホルダに対するスコアを非常に低い値に置換する
+            # のちのソートを考慮して、プレースホルダに対するスコアを低い値に置換する
             "score": [
                 -1e10 if index < 0 else score for score, index in zip(scores, indices)
             ],
@@ -31,15 +31,15 @@ def format_score_data(k, query_ids, product_ids, score_matrix, index_matrix):
     )
 
 
-# ラベルとFaissが返したスコアを単一のpandas (pd) DataFrameにまとめる関数
+# ラベルとFaissが返したスコアを単一のDataFrameにまとめる関数
 def merge_label_and_score_data(label_data, score_data):
     return pd.merge(
         label_data,
         score_data,
-        # どちらかのDataFrameに含まれる（クエリID, 製品ID）のペアなら残す（外部結合）
+        # いずれかのDataFrameにしか存在しない（クエリID、製品ID）のペアも残す（外部結合）
         on=["query_id", "product_id"],
         how="outer",
-        # 不明なラベルはI（無関連）、のちのソートを考慮して不明なスコアは最も低い値に置換する
+        # 不明なラベルはI（無関連）、のちのソートを考慮して不明なスコアは最低の値に置換する
     ).fillna({"esci_label": "I", "score": -2e10})
 
 
@@ -47,7 +47,7 @@ def merge_label_and_score_data(label_data, score_data):
 def print_ndcg_for_faiss(
     k, label_data, query_ids, product_ids, score_matrix, index_matrix
 ):
-    # Faissが返したスコアをPandas DataFrameにまとめる
+    # Faissが返したスコアをDataFrameにまとめる
     score_data = format_score_data(
         k, query_ids, product_ids, score_matrix, index_matrix
     )
@@ -55,22 +55,22 @@ def print_ndcg_for_faiss(
     # nDCGの利得とFaissが返したスコアを単一のDataFrameにまとめる
     merged_data = merge_label_and_score_data(label_data, score_data)
 
-    # nDCGを計算し表示する
+    # 平均nDCGを計算し表示する
     print_ndcg(merged_data, k)
 
 
-# Faissのインデックスをテストする関数。今後よく使うので関数にまとめた。
+# Faissのインデックスをテストする関数。今後よく使うので関数にまとめた
 def test_faiss(faiss_index, label_data, k, returns_distance=False):
-    # 分かりやすいようにFaissインデックスのクラス名を表示する
+    # わかりやすいようにFaissインデックスのクラス名を表示する
     print(faiss_index.__class__.__name__)
 
     # データセットをクエリとドキュメントに分割する
     query_data, document_data = split_into_query_and_document(label_data)
 
-    # ドキュメントを整形し入力する
+    # ドキュメントベクトルを整形し入力する
     faiss_index.add(np.vstack(document_data["title_vector"]))
 
-    # クエリを整形し入力する。また処理にかかった時間も測定する。
+    # クエリベクトルを整形し入力（つまり検索）する。また処理にかかった時間も測定する
     search_started_at = time.perf_counter()
     score_matrix, index_matrix = faiss_index.search(
         np.vstack(query_data["query_vector"]), k
@@ -84,7 +84,7 @@ def test_faiss(faiss_index, label_data, k, returns_distance=False):
     if returns_distance:
         score_matrix *= -1
 
-    # nDCGを計算し表示する
+    # 平均nDCGを計算し表示する
     print_ndcg_for_faiss(
         k,
         label_data,

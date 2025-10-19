@@ -8,7 +8,7 @@ from ch07_vector_compression_0_data import read_tuned_vectorized_data
 import faiss
 
 
-# コマンドライン引数から、LSHのビット数を読み込む
+# コマンドライン引数からLSHのビット数（出力ビットベクトルの次元数）を読み込む
 argument_parser = ArgumentParser()
 argument_parser.add_argument("--dimensions-of-output", default=96, type=int)
 args = argument_parser.parse_args()
@@ -22,5 +22,5 @@ faiss_index = faiss.IndexLSH(
     args.dimensions_of_output,
 )
 
-# テストする。とくにIndexLSHは距離を返す (returns_distance=True) ことに注意する。
+# テストする。とくにIndexLSHは距離を返す（returns_distance=True）ことに注意する
 test_faiss(faiss_index, jp_data, k=10, returns_distance=True)

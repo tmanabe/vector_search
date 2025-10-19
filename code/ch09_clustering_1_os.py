@@ -17,7 +17,7 @@ import numpy as np
 
 # コマンドライン引数を読み込む
 argument_parser = ArgumentParser()
-# ドキュメントを分別するセントロイド数
+# ドキュメントを分別するセントロイド数（クラスタ数でもある）
 argument_parser.add_argument("--number-of-centroids", default=40, type=int)
 # ドキュメントあたりOpenSearchに紐づけさせるセントロイド数
 argument_parser.add_argument(
@@ -33,22 +33,22 @@ jp_data = read_tuned_vectorized_data()
 # データからベクトルの次元数を取得する
 dimension_number = get_dimension_number_of(jp_data)
 
-# クラスタリング対象は訓練データ上のタイトルベクトル列とする
+# クラスタリング対象は訓練データ上のドキュメント（ここでは製品タイトル）ベクトル列とする
 vectors_to_cluster = np.vstack(jp_data[jp_data.split == "train"]["title_vector"])
 
-# K-Meansクラスタリングを実行し、セントロイドのインデックスを作成する
+# ベクトル列をクラスタリングし、セントロイドのインデックスを作成する
 faiss_k_means = faiss.Kmeans(
     dimension_number, args.number_of_centroids, spherical=True, seed=0
 )
 faiss_k_means.train(vectors_to_cluster)
 
-# クエリベクトルに最寄りのセントロイドのリストを紐づける
+# 各クエリベクトルに最寄りのセントロイドIDのリストを紐づける
 _, index_matrix = faiss_k_means.index.search(
     np.vstack(jp_data.query_vector), args.number_of_centroids_per_query
 )
 jp_data["query_centroids"] = list(index_matrix)
 
-# ドキュメントベクトルに最寄りのセントロイドのリストを紐づける
+# 各ドキュメントベクトルに最寄りのセントロイドIDのリストを紐づける
 _, index_matrix = faiss_k_means.index.search(
     np.vstack(jp_data.title_vector), args.number_of_centroids_per_document
 )
@@ -67,7 +67,7 @@ tester.create_index(get_default_index_options(dimension_number))
 tester.input_documents(
     document_data,
     formatter=lambda row: {
-        # とくに、製品タイトル（のベクトル）のセントロイドも入力する
+        # とくにドキュメントベクトル（製品タイトルベクトル）のセントロイドIDのリストも入力する
         "title_centroids": row.title_centroids,
         # 以降は、本書デフォルトと同じ
         "product_title": row.product_title,
@@ -81,7 +81,7 @@ tester.input_queries(
     size=10,
     formatter=lambda row: {
         "script_score": {
-            # とくに、製品タイトルとクエリのセントロイドが一致するドキュメントのみスコア計算する
+            # とくに、製品タイトルとクエリのセントロイドIDが一致するドキュメントのみスコア計算する
             "query": {
                 "bool": {
                     "should": [

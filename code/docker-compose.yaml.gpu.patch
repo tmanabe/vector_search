@@ -14,5 +14,5 @@ index 1673b9c..22308a1 100644
 +              capabilities: [gpu]
 +              count: 1
  
-   # 第3章から使用 (OpenSearch)
+   # 第3章から使用（OpenSearch）
    opensearch:

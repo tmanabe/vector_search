@@ -10,16 +10,16 @@ import pandas as pd
 import PIL
 
 
-# 題材の画像データセットとして、zalando-datasets/fashion_mnist を読み込む関数
+# 題材の画像データセットを読み込む関数
 def read_image_data(split, sample_percent=100):
     # Hugging Face Datasetとして読み込み、pandas DataFrameに変換する
     image_data = datasets.load_dataset(
         "zalando-datasets/fashion_mnist",
-        # 訓練またはテストデータに絞り、かつ、指定のサンプル率で読み込む
+        # 訓練またはテストデータに絞り、かつ指定のサンプル率で読み込む
         split=f"{split}[:{sample_percent}%]",
     ).to_pandas()
 
-    # 以下の形式のデータを、画像（PILのImageのインスタンス）としてデコードする関数
+    # 以下の形式のデータを画像（PILのImageFileのインスタンス）としてデコードする関数
     # {'bytes': b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHD...
     def decode(image_dict):
         return PIL.Image.open(BytesIO(image_dict["bytes"]))
@@ -30,8 +30,8 @@ def read_image_data(split, sample_percent=100):
     return image_data
 
 
-# 題材の画像データセットのラベル（リストのインデックス）と説明文との対応を宣言。
-# 本書では説明文をクエリとして用いる。
+# 題材の画像データセットのラベル（リストのインデックス）と説明文（リストの要素）との
+# 対応の宣言。本書では説明文をクエリのように扱う
 IMAGE_LABEL_TO_QUERY = [
     "T-shirt/top",
     "Trouser",
@@ -47,14 +47,14 @@ IMAGE_LABEL_TO_QUERY = [
 
 
 # 画像にも対応するベクトル化モデルとして、openai/clip-vit-base-patch32 を読み込み、
-# SentenceTransformerクラスのインスタンスにラップして返す関数
+# SentenceTransformerのインスタンスにラップして返す関数
 def get_text_or_image_vectorization_model():
     return SentenceTransformer(
         modules=[models.CLIPModel("openai/clip-vit-base-patch32")]
     )
 
 
-# 与えられたベクトル化モデルと引数で、「別に与えられたリストの要素をベクトル化する関数」を返す関数
+# 与えられたモデルと引数で、「別に与えられたリストの要素をベクトル化する関数」を返す関数
 def vectorize_texts_or_images_with(model, args=DEFAULT_ARGS):
 
     # 与えられたリストの要素をベクトル化する関数
@@ -64,9 +64,9 @@ def vectorize_texts_or_images_with(model, args=DEFAULT_ARGS):
     return vectorize
 
 
-# スコアの計算、および、適合率の計算を行う関数
+# 単一のクエリに対して、スコアおよび適合率の計算を行う関数
 def test_image(image_data, expected_label, query_vector, k=10):
-    # クエリとドキュメント（ここでは画像）の両ベクトルのコサイン類似度を計算しスコアとする
+    # クエリとドキュメント（画像）の両ベクトルのスコア（コサイン類似度）を計算する
     scores = pd.DataFrame(
         {
             "query_vector": len(image_data) * [query_vector],
@@ -81,7 +81,7 @@ def test_image(image_data, expected_label, query_vector, k=10):
     return sum(image_data[ranks <= k]["label"] == expected_label) / k
 
 
-# ベクトル化、スコアの計算、適合率のクエリ間平均の計算と表示、を一気に行う関数
+# ベクトル化、スコアの計算、適合率のクエリ間平均の計算と表示を一気に行う関数
 def evaluate(model, data):
     # クエリとドキュメントをベクトル化する
     vectorize = vectorize_texts_or_images_with(model=model)
@@ -98,8 +98,8 @@ def evaluate(model, data):
 
 # このコードを直に実行した場合のみ、以下のコードを実行する
 if __name__ == "__main__":
-    # 題材の画像テストデータを1パーセントサンプリングと画像のデコードをしつつ読み込む
+    # テストデータを1パーセントサンプリングと画像のデコードをしつつ読み込む
     image_test_data = read_image_data(split="test", sample_percent=1)
 
-    # 画像にも対応するベクトル化モデルを読み込み、適合率のクエリ間平均を表示する
+    # 画像にも対応するベクトル化モデルを読み込み、適合率のクエリ間平均を計算し表示する
     evaluate(get_text_or_image_vectorization_model(), image_test_data)

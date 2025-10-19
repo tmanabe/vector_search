@@ -7,7 +7,7 @@ services:
     volumes:
     - .:/code
 
-  # 第3章から使用 (OpenSearch)
+  # 第3章から使用（OpenSearch）
   opensearch:
     image: opensearchproject/opensearch
     ports:

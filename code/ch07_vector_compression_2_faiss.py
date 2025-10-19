@@ -14,7 +14,7 @@ jp_data = read_tuned_vectorized_data()
 # データからベクトルの次元数を取得する
 dimension_number = get_dimension_number_of(jp_data)
 
-# スカラ量子化なし・あり、それぞれ実行して結果を比較する
+# スカラ量子化なし・あり、それぞれ実行して平均nDCGを比較する
 for with_quantize in [False, True]:
     # Faissインデックスを作成する
     if with_quantize:
@@ -23,11 +23,12 @@ for with_quantize in [False, True]:
             dimension_number,
             # 表現はINT8とする
             faiss.ScalarQuantizer.QT_8bit,
-            # 計算式はinner product（内積もしくはドット積）とする
+            # 計算式はINNER_PRODUCT（内積もしくはドット積）とする
             faiss.METRIC_INNER_PRODUCT,
         )
 
-        # キャリブレーション対象は訓練データ上のタイトルベクトル列とする
+        # キャリブレーションデータは訓練データ上の
+        # ドキュメント（ここでは製品タイトル）ベクトル列とする
         calibration_vectors = np.vstack(
             jp_data[jp_data.split == "train"]["title_vector"]
         )

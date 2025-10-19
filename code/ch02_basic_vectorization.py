@@ -6,28 +6,27 @@ import os
 import pandas as pd
 
 
-# 基本的なベクトル化モデルとして、
-# sentence-transformers/all-MiniLM-L6-v2 を読み込む関数
+# 基本的なベクトル化モデルとして、Sentence TransformersのMiniLMを読み込む関数
 def get_basic_vectorization_model():
     return SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 
-# ベクトル化のデフォルトの引数
+# 本書デフォルトのベクトル化の引数
 DEFAULT_ARGS = {"show_progress_bar": True}
 
 
-# 与えられたベクトル化モデルと引数で、「別に与えられたテキストのリストをベクトル化する関数」を返す関数
+# 与えられたモデルと引数で、「別に与えられたテキストのリストをベクトル化する関数」を返す関数
 def vectorize_with(model, args=DEFAULT_ARGS):
 
     # 与えられたテキストのリストをベクトル化する関数
     def vectorize(texts):
-        # コスト削減のため、対象のテキストを重複排除する
+        # 高速化のため、対象のテキストを重複排除する
         unique_texts = sorted(set(texts))
 
-        # モデルを推論する。このとき引数も与える。
+        # モデルを推論する。このとき引数も与える
         vectors = model.encode(unique_texts, **args)
 
-        # 重複のあるベクトル列に戻す
+        # もとのテキスト列に対応するベクトル列に戻す
         text_to_vector = {text: vector for text, vector in zip(unique_texts, vectors)}
         return [text_to_vector[text] for text in texts]
 
@@ -35,7 +34,7 @@ def vectorize_with(model, args=DEFAULT_ARGS):
 
 
 # 基本的なベクトル化モデルでベクトル化したデータの保存先。このまま実行した場合は、
-# 本書のサンプルコードのディレクトリ code 以下、tmp/basic-vectorized.parquet に保存する。
+# 本書のサンプルコードのディレクトリ code 以下、tmp/basic-vectorized.parquet に保存する
 BASIC_VECTORIZED_PARQUET_PATH = os.path.join(
     os.path.dirname(__file__), "tmp", "basic-vectorized.parquet"
 )
@@ -52,13 +51,13 @@ def read_basic_vectorized_data():
     if os.path.isfile(BASIC_VECTORIZED_PARQUET_PATH):
         return pd.read_parquet(BASIC_VECTORIZED_PARQUET_PATH)
 
-    # 存在しなければ例外を上げる
+    # 存在しなければ例外をあげる
     raise ValueError("事前にベクトル化したデータがありません（第2章を参照）")
 
 
 # データからベクトルの次元数を取得するヘルパー関数
 def get_dimension_number_of(data):
-    # 最初 (iloc[0]) のクエリベクトルの次元数に基づく
+    # 単に最初 (iloc[0]) のクエリベクトルの次元数を取得する
     return len(data["query_vector"].iloc[0])
 
 
@@ -74,7 +73,7 @@ def split_into_query_and_document(data):
 if __name__ == "__main__":
     from ch01_data_preparation import read_jp_data
 
-    # 基本的なベクトル化モデルとデフォルトの引数で、
+    # 基本的なベクトル化モデルと本書デフォルトの引数で、
     # 「別に与えられたテキストのリストをベクトル化する関数」vectorize を準備する
     basic_vectorization_model = get_basic_vectorization_model()
     vectorize = vectorize_with(basic_vectorization_model)

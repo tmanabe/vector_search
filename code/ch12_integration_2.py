@@ -5,7 +5,7 @@ from ch03_vector_search_engines_0_numpy import cos
 from ch04_evaluate_search_results_0_ndcg import print_ndcg
 
 
-# 整形の対象とする列名と対応するプレフィックスを宣言
+# 整形の対象とする列名と対応するプレフィックスの定義
 COLUMNS_TO_PREFIX = {
     "product_title": "タイトル",
     "product_brand": "ブランド名",
@@ -15,7 +15,7 @@ COLUMNS_TO_PREFIX = {
 }
 
 
-# データの行をドキュメントに整形する関数
+# データセットの行をドキュメントに整形する関数
 def format_document(row):
     results = []
     for column, prefix in COLUMNS_TO_PREFIX.items():
@@ -24,12 +24,12 @@ def format_document(row):
     return "、".join(results)
 
 
-# データの行をクエリに整形する関数
+# データセットの行をクエリに整形する関数
 def format_query(row):
     return f"クエリ：{row.query}"
 
 
-# ベクトル化、スコアの計算、平均nDCGの計算と表示、を一気に行う関数
+# ベクトル化、スコアの計算、平均nDCGの計算と表示を一気に行う関数
 def evaluate(model, data):
     # クエリとドキュメントをベクトル化する
     vectorize = vectorize_with(model=model)
@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
     # コマンドライン引数を読み込む
     argument_parser = ArgumentParser()
-    # 最大の入力トークン数
+    # 最大シーケンス長（ベクトル化モデルに入力できる最大のトークン数）
     argument_parser.add_argument("--max-seq-length", default=128, type=int)
     # データのサンプル率
     argument_parser.add_argument(
@@ -65,20 +65,20 @@ if __name__ == "__main__":
     )
     args = argument_parser.parse_args()
 
-    # ファインチューニング前のベクトル化モデルを組み、最大の入力トークン数を設定する
+    # ファインチューニング前のベクトル化モデルを組み、最大シーケンス長を設定する
     model = get_sentence_transformer()
     model.max_seq_length = args.max_seq_length
 
-    # テストデータを読み込む。特に、製品の詳細情報も読み込む。
+    # テストデータを読み込む。とくに、製品の詳細も読み込む
     jp_test_data = read_jp_data(
         split="test", sample_rate=args.sample_rate, read_product_detail=True
     )
 
-    # ファインチューニング前のモデルの平均nDCGを表示する
+    # ファインチューニング前のモデルの平均nDCGを計算し表示する
     print("Before fine-tuning")
     evaluate(model, jp_test_data)
 
-    # 訓練データを読み込む。特に、製品の詳細情報も読み込む。
+    # 訓練データを読み込む。とくに、製品の詳細も読み込む
     jp_train_data = read_jp_data(
         split="train", sample_rate=args.sample_rate, read_product_detail=True
     )
@@ -97,10 +97,10 @@ if __name__ == "__main__":
         model=model,
         # パラメータも与える
         args=DEFAULT_ARGS,
-        # 損失関数も与える。ここではコサイン類似度と正解のスコアの大小関係が一致するように与える。
+        # 損失関数も与える。ここではコサイン類似度と正解のスコアの大小関係が一致するように指定
         loss=losses.CoSENTLoss(model),
     ).train()
 
-    # ファインチューニング後のモデルの平均nDCGを表示する
+    # ファインチューニング後のモデルの平均nDCGを計算し表示する
     print("After fine-tuning")
     evaluate(model, jp_test_data)

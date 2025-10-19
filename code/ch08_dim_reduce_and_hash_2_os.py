@@ -13,7 +13,7 @@ from ch07_vector_compression_0_data import read_tuned_vectorized_data
 from ch08_dim_reduce_and_hash_0_numpy import randomly_rotate
 
 
-# コマンドライン引数から、LSHのビット数を読み込む
+# コマンドライン引数からLSHのビット数（出力ビットベクトルの次元数）を読み込む
 argument_parser = ArgumentParser()
 argument_parser.add_argument("--dimensions-of-output", default=8, type=int)
 args = argument_parser.parse_args()
@@ -25,7 +25,7 @@ jp_data = read_tuned_vectorized_data()
 dimensions = get_dimension_number_of(jp_data)
 
 
-# ハッシュ関数（ベクトルの要素の符号を取り、冗長だが見やすい文字列とする）
+# ハッシュ関数（ベクトルの要素の符号をとり、冗長だが見やすい文字列とする）
 def hashed(vector):
     return "".join(["0" if element < 0 else "1" for element in vector])
 
@@ -57,7 +57,7 @@ tester.create_index(get_default_index_options(dimensions))
 tester.input_documents(
     document_data,
     formatter=lambda row: {
-        # とくに、製品タイトル（のベクトル）のハッシュ値も入力する
+        # とくにドキュメントベクトル（ここでは製品タイトルベクトル）のハッシュ値も入力する
         "title_hash": row.title_hash,
         # 以降は、本書デフォルトと同じ
         "product_title": row.product_title,
@@ -71,7 +71,7 @@ tester.input_queries(
     size=10,
     formatter=lambda row: {
         "script_score": {
-            # とくに、製品タイトルとクエリのハッシュ値が一致するドキュメントのみスコア計算する
+            # とくに、ハッシュ値がクエリと一致するドキュメントのみをスコア計算の対象とする
             "query": {"bool": {"must": {"match": {"title_hash": row.query_hash}}}},
             # 以降は、本書デフォルトと同じ
             "script": {

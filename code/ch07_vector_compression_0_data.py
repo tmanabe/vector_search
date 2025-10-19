@@ -5,7 +5,7 @@ import pandas as pd
 
 
 # ファインチューニング後のモデルでベクトル化したデータの保存先。このまま実行した場合は、
-# 本書のサンプルコードのディレクトリ code 以下、tmp/tuned-vectorized.parquet に保存する。
+# 本書のサンプルコードのディレクトリ code 以下、tmp/tuned-vectorized.parquet に保存する
 TUNED_VECTORIZED_PARQUET_PATH = os.path.join(
     os.path.dirname(__file__), "tmp", "tuned-vectorized.parquet"
 )
@@ -22,11 +22,11 @@ def read_tuned_vectorized_data():
     if os.path.isfile(TUNED_VECTORIZED_PARQUET_PATH):
         return pd.read_parquet(TUNED_VECTORIZED_PARQUET_PATH)
 
-    # 存在しなければ例外を上げる
+    # 存在しなければ例外をあげる
     raise ValueError("事前にベクトル化したデータがありません（第7章を参照）")
 
 
-# このコードを直に実行した場合のみ、以下のコードを実行する
+# このコードをじかに実行した場合のみ、以下のコードを実行する
 if __name__ == "__main__":
     from argparse import ArgumentParser
     from ch01_data_preparation import read_jp_data
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # ファインチューニング後のモデルを読み込む
     model = get_tuned_vectorization_model()
 
-    # クエリと製品タイトルをベクトル化し、新たな列として保存する
+    # クエリとドキュメント（製品タイトル）をベクトル化し、新たな列として保存する
     vectorize = vectorize_with(model)
     jp_data["query_vector"] = vectorize(jp_data["query"])
     jp_data["title_vector"] = vectorize(jp_data["product_title"])

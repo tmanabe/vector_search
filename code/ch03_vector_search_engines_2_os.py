@@ -40,18 +40,18 @@ def format_document(row):
 def format_query(row):
     return {
         "script_score": {
-            # 全てのドキュメントをスコア計算の対象とする（総当たり）指定
+            # すべてのドキュメントを抽出する（総当たり）指定
             "query": {"match_all": {}},
-            # ベクトルに基づきスコア計算する指定
+            # ドキュメントに、ベクトルにもとづきスコアをつける指定
             "script": {
                 "source": "knn_score",
                 "lang": "knn",
                 "params": {
                     # ドキュメントベクトルのフィールド名
                     "field": "title_vector",
-                    # クエリベクトル
+                    # クエリベクトルそのもの
                     "query_value": row.query_vector,
-                    # 両ベクトルのドット積を計算する指定
+                    # 両ベクトルの内積（またはドット積）を計算する指定
                     "space_type": "innerproduct",
                 },
             },
@@ -64,37 +64,37 @@ class OpenSearchTester:
 
     # インスタンスを作成する特殊メソッド
     def __init__(self, index_name, concurrency=multiprocessing.cpu_count()):
-        # 全てのメソッドで共通のインデックスを扱うので、その名前を保存しておく
+        # すべてのメソッドで共通のインデックスを扱うので、その名前を保存しておく
         self.index_name = index_name
 
-        # OpenSearchへのリクエストの並列度も保存しておく。デフォルトではCPU数と同じ。
+        # OpenSearchへのリクエストの並列度も保存しておく。デフォルトではCPU数と同じ
         self.concurrency = concurrency
 
         # OpenSearchへは：
-        # - 別のコンテナからはDocker Composeのサービス名 (opensearch) でアクセスする。
-        # - Dockerを実行するマシンからは自身 (localhost) のポートを介してアクセスする。
-        # このコードが /code 以下にあればコンテナで実行されているとみなす。
+        # - 別のコンテナからはDocker Composeのサービス名（opensearch）でアクセスする
+        # - Dockerを実行するマシンからは自身（localhost）のポートを介してアクセスする
+        # このコードが /code 以下にあればコンテナで実行されているとみなす
         host = "opensearch" if __file__.startswith("/code/ch") else "localhost"
 
-        # 内部で使うOpenSearchクライアントを作成し、これも保存しておく
+        # 内部で使うOpenSearchクライアントをインスタンス化し、これも保存しておく
         self.open_search = OpenSearch(
-            # ホスト名は前述の通り、ポート番号はデフォルト
+            # ホスト名は前述のとおり、ポート番号はデフォルト
             hosts=[{"host": host, "port": 9200}],
             # デフォルトの設定ではSSLが有効だが、証明書は広く通用するものではない
             use_ssl=True,
             verify_certs=False,
             ssl_show_warn=False,
-            # 管理者パスワードが必須。サンプルコードなので常に管理者としてアクセスする。
+            # 管理者パスワードの設定が必須で、サンプルコードなので常に管理者としてアクセスする
             http_auth=("admin", "Vect0rSe@rchEngine"),
         )
 
     # インデックスを作成するメソッド
     def create_index(self, options):
-        # 同名のインデックスが既存なら削除する
-        if self.open_search.indices.exists(self.index_name):
-            self.open_search.indices.delete(self.index_name)
+        # 同名のインデックスが存在するなら削除する
+        if self.open_search.indices.exists(index=self.index_name):
+            self.open_search.indices.delete(index=self.index_name)
         # 作成する
-        self.open_search.indices.create(self.index_name, body=options)
+        self.open_search.indices.create(index=self.index_name, body=options)
 
     # 多数のドキュメントを整形し、入力するメソッド
     def input_documents(self, data, formatter=format_document):
@@ -105,7 +105,7 @@ class OpenSearchTester:
         async def input_group(group_by_query):
             # セマフォを獲得してから処理を進めることで、実際に並列度を制限する
             async with semaphore:
-                # まとめる先のリスト
+                # ドキュメントをまとめる先のリスト
                 body = [None] * 2 * len(group_by_query)
                 # 0はじまりで偶数番目の要素にはインデックス名とドキュメントIDを入れる
                 body[::2] = group_by_query["product_id"].apply(
@@ -115,14 +115,14 @@ class OpenSearchTester:
                 )
                 # 奇数番目の要素にはドキュメントそのものを整形して入れる
                 body[1::2] = group_by_query.apply(formatter, axis=1)
-                # リストを入力する (bulk)。高速化のためスレッドで非同期に行う。
-                await asyncio.to_thread(self.open_search.bulk, body)
+                # リストを入力する（bulk）。高速化のためスレッドで非同期に行う
+                await asyncio.to_thread(self.open_search.bulk, body=body)
 
         # 多数のドキュメントを整形し、入力する関数（非同期）
         async def input_documents_async():
-            # 非同期なので完了を待つ (asyncio.gather)。このとき進捗を表示する (tqdm)。
+            # 非同期なので完了を待つ（asyncio.gather）。このとき進捗を表示する（tqdm）
             await tqdm_asyncio.gather(
-                # 非同期でも1つずつは遅いので、紐づくクエリ (ID) ごとにまとめて入力する
+                # 非同期でも1つずつは遅いので、紐づくクエリ（ID）ごとにまとめて入力する
                 *[
                     input_group(group_by_query)
                     for _, group_by_query in data.groupby("query_id")
@@ -132,7 +132,7 @@ class OpenSearchTester:
         # 実際に多数のドキュメントを整形し、入力する（非同期）
         asyncio.run(input_documents_async())
 
-        # 入力した全てのドキュメントを検索可能にする
+        # 入力したすべてのドキュメントを検索可能にする
         self.open_search.indices.refresh(index=self.index_name)
 
     # 多数のクエリを整形し、入力し、結果を表示したり保存したりするメソッド
@@ -144,7 +144,7 @@ class OpenSearchTester:
         async def input_query(row):
             # セマフォを獲得してから処理を進めることで、実際に並列度を制限する
             async with semaphore:
-                # クエリを入力、つまり検索する (search)。高速化のためスレッドで非同期に行う。
+                # クエリを入力、つまり検索する（search)。高速化のためスレッドで非同期に行う
                 search_result = await asyncio.to_thread(
                     self.open_search.search,
                     index=self.index_name,
@@ -155,28 +155,28 @@ class OpenSearchTester:
                         "size": size,
                         # クエリそのものを整形して入れる
                         "query": formatter(row),
-                        # レスポンスからベクトルを除外する指定（単に、表示すると非常に長いため）
+                        # レスポンスからドキュメントベクトルを除外する指定
                         "_source": {"exclude": "title_vector"},
                     },
                 )
 
-            # 例のクエリについては、ランキング結果をそのまま表示
+            # 例のクエリについては、検索結果をそのまま表示
             if row.query_id == 119300:
                 print(json.dumps(search_result, ensure_ascii=False, indent=4))
 
-            # 処理時間とヒット件数を返す
+            # 処理にかかった時間とヒット件数を返す
             return search_result["took"], search_result["hits"]["total"]["value"]
 
         # 多数のクエリを処理する関数（非同期）
         async def input_queries_async():
-            # 非同期なので完了を待つ (asyncio.gather)。このとき進捗を表示する (tqdm)。
+            # 非同期なので完了を待つ（asyncio.gather)。このとき進捗を表示する（tqdm)
             results = await tqdm_asyncio.gather(
-                # 1行が1つのクエリに対応するので、行を走査する (iterrows)
+                # 1行が1つのクエリに対応するので、行を走査する（iterrows)
                 *[input_query(row) for _, row in data.iterrows()]
             )
 
             # ヒット件数とレイテンシを保存する。このまま実行した場合は、本書のサンプルコードの
-            # ディレクトリ code 以下、tmp/（インデックス名）-took-hits.parquet に保存する。
+            # ディレクトリ code 以下、tmp/（インデックス名）-took-hits.parquet に保存する
             pd.DataFrame(results, columns=["took", "hits"]).to_parquet(
                 os.path.join(
                     os.path.dirname(__file__),

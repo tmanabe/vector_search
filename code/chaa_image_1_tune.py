@@ -11,15 +11,15 @@ from datasets import Dataset
 from sentence_transformers import losses, SentenceTransformerTrainer
 
 
-# 題材の画像訓練データを1パーセントサンプリングと画像をデコードしつつ読み込む
+# 訓練データを1パーセントサンプリングと画像のデコードをしつつ読み込む
 image_train_data = read_image_data(split="train", sample_percent=1)
 
 # ファインチューニング前の、画像にも対応するベクトル化モデルを読み込む
 model = get_text_or_image_vectorization_model()
 
-# ファインチューニングを実行する
+# ファインチューニングする
 SentenceTransformerTrainer(
-    # クエリと正解の画像を与える
+    # クエリと正解のドキュメント（ここでは画像）を与える
     train_dataset=Dataset.from_dict(
         {
             "query": image_train_data["label"].apply(
@@ -33,12 +33,12 @@ SentenceTransformerTrainer(
     # パラメータも与える
     args=DEFAULT_ARGS,
     # 損失関数も与える。ここではクエリと正解の画像とのコサイン類似度は高くし、
-    # 同じバッチ中で不正解の画像とのコサイン類似度は相対的に低くするように指定する。
+    # 同じバッチ中で不正解の画像とのコサイン類似度は相対的に低くするように指定する
     loss=losses.MultipleNegativesRankingLoss(model),
 ).train()
 
-# 題材の画像テストデータを1パーセントサンプリングと画像のデコードをしつつ読み込む
+# テストデータを1パーセントサンプリングと画像のデコードをしつつ読み込む
 image_test_data = read_image_data(split="test", sample_percent=1)
 
-# ファインチューニング後のモデルの、適合率のクエリ間平均を表示する
+# ファインチューニング後のモデルの適合率のクエリ間平均を計算し表示する
 evaluate(model, image_test_data)

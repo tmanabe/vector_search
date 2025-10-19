@@ -12,7 +12,7 @@ def esci_label_to_ndcg_gain(esci_label):
     return ESCI_LABEL_TO_NDCG_GAIN[esci_label]
 
 
-# nDCGを計算し表示する関数
+# 平均nDCGを計算し表示する関数
 def print_ndcg(data, k=None):
     total, query_count = 0.0, 0
 
@@ -26,7 +26,7 @@ def print_ndcg(data, k=None):
         )
         query_count += 1
 
-    # クエリ間の平均を取り、小数点以下3桁まで表示する
+    # クエリ間の平均をとり、小数点以下3桁まで表示する
     print(f"Mean nDCG: {total / query_count:.03f}")
 
 
@@ -41,5 +41,5 @@ if __name__ == "__main__":
     # スコア（ここではコサイン類似度）を計算する
     jp_data["score"] = jp_data[["query_vector", "title_vector"]].apply(cos, axis=1)
 
-    # nDCGを計算し表示する
+    # 平均nDCGを計算し表示する
     print_ndcg(jp_data)

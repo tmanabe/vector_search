@@ -45,13 +45,13 @@ tester.input_queries(
     query_data,
     size=10,
     formatter=lambda row: {
-        # HNSWに基づきスコア計算の対象を決め、ベクトルに基づきスコア計算する指定
+        # HNSWにより対象を絞り込みつつスコア計算する指定
         "knn": {
             # ドキュメントベクトルのフィールド名
             "title_vector": {
                 # クエリベクトル
                 "vector": row.query_vector,
-                # HNSWで引き当てさせるベクトルの数。なのでsizeと同じにする。
+                # HNSWで引き当てさせるベクトルの数なのでsizeと同じにする
                 "k": 10,
             }
         }

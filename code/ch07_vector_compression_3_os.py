@@ -10,7 +10,7 @@ from ch07_vector_compression_0_data import read_tuned_vectorized_data
 from ch07_vector_compression_1_numpy import quantize
 
 
-# コマンドライン引数から、スカラ量子化のオンオフを読み込む
+# コマンドライン引数で、スカラ量子化なしを指定できる
 argument_parser = ArgumentParser()
 argument_parser.add_argument("--skip-quantize", action="store_true")
 args = argument_parser.parse_args()
@@ -18,7 +18,7 @@ args = argument_parser.parse_args()
 # ベクトル化したデータセットをメモリに読み込む
 jp_data = read_tuned_vectorized_data()
 
-# 必要に応じてスカラ量子化を実行する
+# 必要に応じてベクトルをスカラ量子化する
 if not args.skip_quantize:
     quantize(jp_data)
 
@@ -37,7 +37,7 @@ tester.create_index(
                     "type": "knn_vector",
                     # データからベクトルの次元数を取得する
                     "dimension": get_dimension_number_of(jp_data),
-                    # 必要に応じて表現は byte (INT8) とする
+                    # スカラ量子化ありなら、表現は byte（INT8）とする
                     "data_type": "float" if args.skip_quantize else "byte",
                 }
             }

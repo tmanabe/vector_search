@@ -15,7 +15,7 @@ def get_sentence_transformer():
     transformer_module = models.Transformer(
         "line-corporation/line-distilbert-base-japanese",
         tokenizer_args={
-            # 独自のトークナイザを実行する許可を与える。特定のバージョンに絞る。
+            # 独自のPythonコードを実行する許可を与える。特定のリビジョンに絞る
             "trust_remote_code": True,
             "revision": "73d6f79438b9bfc325b27ddc6cfc637395e1408b",
         },
@@ -34,9 +34,9 @@ def get_sentence_transformer():
     )
 
 
-# ファインチューニング後のベクトル化モデルの保存先。
+# ファインチューニング後のベクトル化モデルの保存先
 # このまま実行した場合は、本書のサンプルコードのディレクトリ code 以下、
-# tmp/tuned-vectorization-model に保存する。
+# tmp/tuned-vectorization-model に保存する
 TUNED_VECTORIZATION_MODEL_PATH = os.path.join(
     os.path.dirname(__file__), "tmp", "tuned-vectorization-model"
 )
@@ -55,7 +55,7 @@ def get_tuned_vectorization_model():
             TUNED_VECTORIZATION_MODEL_PATH, trust_remote_code=True
         )
 
-    # 存在しなければ例外を上げる
+    # 存在しなければ例外をあげる
     raise ValueError(
         "ファインチューニング後のベクトル化モデルがありません（第5章を参照）"
     )
@@ -63,8 +63,8 @@ def get_tuned_vectorization_model():
 
 # 本書デフォルトのファインチューニングのパラメータ
 DEFAULT_ARGS = SentenceTransformerTrainingArguments(
-    # 分かりやすさのため、チェックポイントを無効化する。
-    # したがってoutput_dirは不要だが、単に必須のため指定した。
+    # わかりやすさのため、チェックポイントを無効化する
+    # したがってoutput_dirは不要だが、単に必須のため指定した
     save_strategy="no",
     output_dir=".",
     # ハイパーパラメータ
@@ -98,9 +98,9 @@ if __name__ == "__main__":
     # ファインチューニング前のベクトル化モデルを組む
     model = get_sentence_transformer()
 
-    # ファインチューニングを実行する
+    # ファインチューニングする
     SentenceTransformerTrainer(
-        # クエリ、ドキュメント（製品タイトル）、正解のスコア（nDCGの利得）を与える
+        # クエリ、ドキュメント（ここでは製品タイトル）、正解のスコア（nDCGの利得）を与える
         train_dataset=Dataset.from_dict(
             {
                 "query": jp_train_data["query"],
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         model=model,
         # パラメータも与える
         args=DEFAULT_ARGS,
-        # 損失関数も与える。ここではコサイン類似度と正解のスコアの大小関係が一致するように与える。
+        # 損失関数も与える。ここではコサイン類似度と正解のスコアの大小関係が一致するように指定
         loss=losses.CoSENTLoss(model),
     ).train()
 

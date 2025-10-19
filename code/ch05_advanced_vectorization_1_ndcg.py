@@ -5,9 +5,9 @@ from ch03_vector_search_engines_0_numpy import cos
 from ch04_evaluate_search_results_0_ndcg import print_ndcg
 
 
-# ベクトル化、スコアの計算、平均nDCGの計算と表示、を一気に行う関数
+# ベクトル化、スコアの計算、平均nDCGの計算と表示を一気に行う関数
 def evaluate(model, data):
-    # クエリとドキュメント（製品タイトル）をベクトル化する
+    # クエリとドキュメント（ここでは製品タイトル）をベクトル化する
     vectorize = vectorize_with(model=model)
     data["query_vector"] = vectorize(data["query"])
     data["title_vector"] = vectorize(data["product_title"])
@@ -15,7 +15,7 @@ def evaluate(model, data):
     # スコア（ここではコサイン類似度）を計算する
     data["score"] = data[["query_vector", "title_vector"]].apply(cos, axis=1)
 
-    # nDCGを計算し表示する
+    # 平均nDCGを計算し表示する
     print_ndcg(data)
 
 

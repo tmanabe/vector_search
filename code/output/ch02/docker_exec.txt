@@ -1,8 +1,14 @@
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]/usr/local/lib/python3.12/site-packages/torch/nn/modules/module.py:1762: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `BertSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
 Batches: 100%|██████████| 1/1 [00:00<00:00, 11.17it/s]
 4
 384
 384
 384
 384
+Batches:   0%|          | 0/4 [00:00<?, ?it/s]/usr/local/lib/python3.12/site-packages/torch/nn/modules/module.py:1762: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `BertSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
 Batches: 100%|██████████| 4/4 [00:00<00:00, 13.89it/s]
+Batches:   0%|          | 0/84 [00:00<?, ?it/s]/usr/local/lib/python3.12/site-packages/torch/nn/modules/module.py:1762: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `BertSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
 Batches: 100%|██████████| 84/84 [00:17<00:00,  4.73it/s]

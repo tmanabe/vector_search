@@ -5,18 +5,18 @@ from sentence_transformers.quantization import quantize_embeddings
 import numpy as np
 
 
-# スカラ量子化を実行する関数
+# ベクトルをスカラ量子化する関数
 def quantize(data):
-    # キャリブレーション対象は訓練データ上のタイトルベクトル列とする
+    # キャリブレーションデータは訓練データ上のドキュメント（製品タイトル）ベクトル列とする
     calibration_vectors = np.vstack(data[data.split == "train"]["title_vector"])
 
-    # クエリベクトル列・タイトルベクトル列それぞれ実行する
+    # クエリ・ドキュメントベクトル列それぞれスカラ量子化する
     for vector_column in ["query_vector", "title_vector"]:
         data[vector_column] = quantize_embeddings(
             np.vstack(data[vector_column]),
             # 表現はINT8とする
             precision="int8",
-            # キャリブレーション対象は共通で訓練データ上のタイトルベクトル列とする
+            # キャリブレーションデータは共通で訓練データ上のドキュメントベクトル列とする
             calibration_embeddings=calibration_vectors,
         ).tolist()
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
         # ベクトル化したデータセットをメモリに読み込む
         jp_data = read_tuned_vectorized_data()
 
-        # 必要に応じてスカラ量子化を実行する
+        # 必要に応じてベクトルをスカラ量子化する
         if with_quantize:
             quantize(jp_data)
 
