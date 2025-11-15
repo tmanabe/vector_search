@@ -71,7 +71,7 @@ class OpenSearchTester:
         self.concurrency = concurrency
 
         # OpenSearchへは：
-        # - 別のコンテナからはDocker Composeのサービス名（opensearch）でアクセスする
+        # - 別のサービスからはDocker Composeのサービス名（opensearch）でアクセスする
         # - Dockerを実行するマシンからは自身（localhost）のポートを介してアクセスする
         # このコードが /code 以下にあればコンテナで実行されているとみなす
         host = "opensearch" if __file__.startswith("/code/ch") else "localhost"

@@ -6,7 +6,7 @@ import os
 import pandas as pd
 
 
-# 基本的なベクトル化モデルとして、Sentence TransformersのMiniLMを読み込む関数
+# 基本的なベクトル化モデルとして、Sentence TransformersのMiniLM-L6を読み込む関数
 def get_basic_vectorization_model():
     return SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
